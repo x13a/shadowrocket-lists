@@ -10,16 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout your repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Download v2fly data
         run: |
           git clone --depth 1 https://github.com/v2fly/domain-list-community.git v2fly-data
 
       - name: Set up Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v7
         with:
-          go-version: '1.25.5'
+          go-version: '1.26'
 
       - name: Clean old output
         run: rm -rf shadowrocket
@@ -29,7 +29,7 @@ jobs:
 
       - name: Commit and push
         run: |
-          git config --local user.email "subbkek@gmail.com"
-          git config --local user.name "sub-kek"
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
           git add shadowrocket/ 
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update rulesets: $(date +'%Y-%m-%d')" && git push)
